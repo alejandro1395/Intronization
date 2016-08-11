@@ -45,7 +45,7 @@ for($i=0;$i<=$#TODO;$i+=13){
 		}}
 			
 	else{
-	  #In case we change from one gene to another one, we do the same process but 
+	  #In case we change from one gene to another one, we do the same process but removing the last genID
 		push (@IDS, $genID);
 		undef @genID;
 		#print $count;
@@ -70,12 +70,9 @@ for($i=0;$i<=$#TODO;$i+=13){
 				push (@ids, $genID);}
 			}push (@genID, $genID);}}
 
-#print $introncount[0];
-$plot = @introncount;
-print @IDS;
-print @introncount;
-#print $plot;
+#The next foreach give us as a result the number of genes that can be intronized (2 or miore gens
 foreach $gen(@introncount){
+	
 	if($gen>=2){
 			$result = Si;
 			push (@intronization,$result);
