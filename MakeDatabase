@@ -1,0 +1,84 @@
+#!/usr/bin/perl
+use warnings;
+
+#Guardamos el nombre de las especies fasta en una matriz y los datos de Excel 
+open (FILEHANDLE,$ARGV[0]);
+@pr = <FILEHANDLE>;
+close(FILEHANDLE);
+chomp(@pr);
+
+@Fastainputs = ("ailuropoda_melanoleuca_novel.fa","microcebus_murinus_novel.fa","bos_taurus_novel.fa","microtus_ochrogaster_novel.fa","callithrix_jacchus_novel.fa",    "monodelphis_domestica_novel.fa","canis_familiaris_novel.fa","mus_musculus_novel.fa","chinchilla_lanigera_novel.fa","myotis_brandtii_novel.fa","equus_caballus_novel.fa",         "pan_paniscus_novel.fa","felis_catus_novel.fa","panthera_tigris_novel.fa","gorilla_gorilla_novel.fa","pan_troglodytes_novel.fa","heterocephalus_glaber_novel.fa","papio_anubis_novel.fa",
+"homo_sapiens_novel.fa","pongo_pygmaeus_novel.fa","ornithorhynchus_anatinus_novel.fa","oryctolagus_cuniculus_novel.fa","ovis_aries_novel.fa","macaca_fascicularis_novel.fa",     "rattus_norvegicus_novel.fa","macaca_mulatta_novel.fa","saimiri_boliviensis_novel.fa","macropus_eugenii_novel.fa","sus_scrofa_novel.fa","tarsius_syrichta_novel.fa","lynx_pardinus_novel.fa ");
+
+foreach $row(@pr){
+	@ID = split("\t",$row);	
+	foreach $column(@ID){
+		push(@TODO,$column);
+
+}}
+
+for($i=0;$i<=$#TODO;$i+=2){
+	$protein = $TODO[$i];
+	push (@proteins, $protein);
+	$transcripts = $TODO[$i+1];
+	push (@transcriptslist,$transcripts);}
+
+$j=0;
+
+
+foreach $element(@proteins){
+	open(OUT,">$element-transcripts.fa");
+	@cuffsep = split(',',$transcriptslist[$j]);
+	Get_prot();
+	my %hash   = map { $_, 1 } @allseq;
+	my @unique = keys %hash;
+	for($t=0;$t<=$#unique;$t++){
+		print OUT "$unique[$t]\n";}
+	undef(@allseq);
+	undef(@cuffsep);
+	undef($cuff);
+	$j=$j+1;
+	}
+
+sub Get_prot
+{
+foreach $cuffsep(@cuffsep){
+	@cuffs = split("'",$cuffsep);
+	if ($cuffs[3] =~ /^CUFF/){
+		$cuff =	$cuffs[3];}
+	elsif ($cuffs[2] =~ /^CUFF/){
+		$cuff =	$cuffs[2];}
+	elsif ($cuffs[4] =~ /^CUFF/){
+		$cuff =	$cuffs[4];}
+	else {
+		$cuff = "NA";}
+	print $cuff,"\n";
+	foreach $input(@Fastainputs){
+		open(SEQ,"<$input") || die "cannot find $input file!\n";
+		$/='>';
+		while(<SEQ>)
+			{
+			if (/$cuff/ and defined($cuff) and $cuff ne "NA")
+				{
+				$entry=">".$_;
+				$l=length($entry);
+				$seq_all=substr($entry,0,$l-1);
+				push(@allseq,$seq_all)
+				}
+			}
+		close(SEQ);
+		$/="\n";
+		}}}
+
+
+	
+
+
+
+#for proteina pos 0 , coger la posicion 2 
+#ir a annotated y que te coga las coordenadas (guardarlas en una matriz (poner la ruta)-_> el vinculo es ID del cufflink que sacas de los primeros bucles (n nombre especie), meter el nombre de la especie en el directorio y , ID del cufflink (NOMBRE DEL ID QUE OBTIENES AL PRINCIPIO ES EL NOMBRE DE LA CARPETA QUE TIENE QUE ABRIR, y cuando lo abra buscar el transcript ID es lo que tiene relacion.
+#buscar los fastas del transcript ID guardados en otro sitio e imprimir junto al nombre de la proteina
+#guardar secuencias fasta con el nombre de la proteina (utilizar el array @TODO con las posiciones) 
+
+
+#Lo de pasar coordenadas a formato bed y hacer el fasta mediante el nombre usando el transcriptID hacerlo a parte :) y guardarlo en carpetas
