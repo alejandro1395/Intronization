@@ -1,0 +1,41 @@
+#!/usr/bin/perl
+use warnings;
+
+
+open (FILEHANDLE,$ARGV[0]);
+@pr = <FILEHANDLE>;
+close(FILEHANDLE);
+chomp(@pr);
+
+foreach $row(@pr){
+	@ID = split("\t",$row);	
+	foreach $column(@ID){
+		push(@TODO,$column);
+
+}}
+
+for($i=0;$i<=$#TODO;$i+=2){
+	$protein = $TODO[$i];
+	push (@proteins, $protein);}
+
+open (FILE,"proteinquery.txt");
+@query = <FILE>;
+close(FILE);
+
+
+foreach $chr(@query){
+	@site= split("\n",$chr);	
+	foreach $pos(@site){
+		push(@OTHERPROT,$pos);
+
+}}
+
+#Foreach protein we get the fasta from the intron and we also get the transcripts from this same protein and make blastn (it was used first with introns
+#and then with exons and introns adjacents, as we can see it changed in the script).
+foreach $proteina(@proteins){
+	foreach  $other(@OTHERPROT){
+	if($proteina eq $other){
+	$command="./blastn -query '$other'-exonintron.fa -db '$proteina'-transcripts_nucl.db -out '$proteina'-resultsexonintron.txt -evalue 1e-4 -num_threads 1 -strand plus -outfmt \"6 qseqid sseqid pident length mismatch gapopen qstart qend sstart send evalue bitscore sallseqid score nident positive gaps ppos qframe sframe qlen slen\"";
+	`$command`;}}}
+	
+	
