@@ -1,0 +1,8 @@
+#!/usr/bin/env python
+
+from Bio.Seq import Seq
+CDS = Seq('')                        
+print CDS.translate()
+
+#We used BioPython for some application of the fasta sequences, in this case, with the final candidates
+3we copied the ORFs and got the tranlated sequence to compare with the human protein
