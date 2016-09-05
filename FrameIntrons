@@ -1,0 +1,20 @@
+#!/usr/bin/python
+
+object = open("selected50.txt", "r")
+
+todo = []
+for line in object:
+	line = line.replace('\n', '') 
+	column = line.split('\t')
+	for value in column:
+		todo.append(value)
+
+#With the next loop we were analyzing the different intron lengths and solving the dude if they were multiple of 3 or not
+f = open("multiple3.txt", "w")
+for x in range(10,len(todo),7):
+	Intron = todo[x]
+	if (int(Intron)%3 == 0):
+		f.write("multiple\n")
+	else:
+		f.write("no multiple\n")
+f.close()
