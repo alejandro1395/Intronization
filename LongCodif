@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 use warnings;
 
-#Utilizamos la rutina de guardado de datos de Excel
+#We use the storage routine from Excel data
 open (FILEHANDLE,'longcodif.txt');
 @exons = <FILEHANDLE>;
 close(FILEHANDLE);
@@ -14,7 +14,7 @@ foreach $row(@exons){
 
 }}
 
-#ExtraemoS en un nuevo archivo toda la informacion sobre los CDS
+#We also extract in a new file all the information from the CDS
 open (FILE,'>longcodifcoord.txt');
 for($i=0;$i<=$#TODO;$i+=5){
 	$totallong = $TODO[$i+2]-$TODO[$i+1];
