@@ -1,8 +1,7 @@
 #!/usr/bin/perl
 use warnings;
 
-#Guardamos el nombre de las especies fasta en una matriz y los datos de Excel 
-open (FILEHANDLE,$ARGV[0]);
+#The routine store all the data from the Exel file and we also store in an array the different species fasta sequences to search the transcripts
 @pr = <FILEHANDLE>;
 close(FILEHANDLE);
 chomp(@pr);
@@ -25,7 +24,7 @@ for($i=0;$i<=$#TODO;$i+=2){
 
 $j=0;
 
-
+#foreach protein we make possible saving the transcripts with its protein name, and then we eould do the same for the introns of each protein.
 foreach $element(@proteins){
 	open(OUT,">$element-transcripts.fa");
 	@cuffsep = split(',',$transcriptslist[$j]);
@@ -40,6 +39,8 @@ foreach $element(@proteins){
 	$j=$j+1;
 	}
 
+#This subroutine allow us to search the Cufflink data that made hit with the gene and get these sequences in order to make 
+#then a blast with the introns of the gene in human.
 sub Get_prot
 {
 foreach $cuffsep(@cuffsep){
@@ -73,12 +74,3 @@ foreach $cuffsep(@cuffsep){
 
 	
 
-
-
-#for proteina pos 0 , coger la posicion 2 
-#ir a annotated y que te coga las coordenadas (guardarlas en una matriz (poner la ruta)-_> el vinculo es ID del cufflink que sacas de los primeros bucles (n nombre especie), meter el nombre de la especie en el directorio y , ID del cufflink (NOMBRE DEL ID QUE OBTIENES AL PRINCIPIO ES EL NOMBRE DE LA CARPETA QUE TIENE QUE ABRIR, y cuando lo abra buscar el transcript ID es lo que tiene relacion.
-#buscar los fastas del transcript ID guardados en otro sitio e imprimir junto al nombre de la proteina
-#guardar secuencias fasta con el nombre de la proteina (utilizar el array @TODO con las posiciones) 
-
-
-#Lo de pasar coordenadas a formato bed y hacer el fasta mediante el nombre usando el transcriptID hacerlo a parte :) y guardarlo en carpetas
